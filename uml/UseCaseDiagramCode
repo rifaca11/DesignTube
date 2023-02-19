@@ -1,0 +1,30 @@
+@startuml
+left to right direction
+
+actor Utilisateur as u
+actor Modérateur as m
+actor Administrateur as a
+
+rectangle "DesignTube" {
+
+  u --> (Créer un compte)
+  u --> (Voir les vidéos)
+  u --> (Rechercher une vidéo par titre)
+
+  (Se connecter) <-- u
+  (Réagir les vidéos) <-- u
+  (Enregistrer les vidéos) <-- u
+  (Modifier les paramètres du compte) <-- u
+  (Enregistrer les vidéos) <-- u
+  (Commenter les vidéos) <-- u
+  (Supprimer ses propres commentaires) <-- u
+  (Modifier ses propres commentaires) <-- u
+  (Ajouter des vidéos) <-- m
+  (Supprimer des vidéos) <-- m
+  (Supprimer les commentaires des utilisateurs) <-- m
+  (Editer des vidéos) <-- m
+  (Bannir les utilisateurs) <-- a
+  (Mettre à jour les rôles) <-- a
+  (Gérer les vidéos) <-- a
+}
+@enduml
