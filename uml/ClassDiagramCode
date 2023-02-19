@@ -1,0 +1,68 @@
+@startuml
+class Utilisateur {
+  +creerCompte(): void
+  +seConnecter(): void
+  +voirVideos(): void
+  +rechercherVideo(titre: string): Video[]
+  +reagirVideo(videoId: int, reaction: string): void
+  +enregistrerVideo(videoId: int): void
+  +modifierParametresCompte(): void
+  +commenterVideo(videoId: int, commentaire: string): void
+  +modifierCommentaire(commentaireId: int, nouveauCommentaire: string): void
+  +supprimerCommentaire(commentaireId: int): void
+}
+
+class Video {
+  -id: int
+  -titre: string
+  -url: string
+  -auteur: Moderateur
+  -dateAjout: Date
+  -reactions: Map<string, int>
+  -commentaires: Commentaire[]
+  +ajouterVideo(): void
+  +supprimerVideo(): void
+  +editerVideo(): void
+}
+
+class Commentaire {
+  -id: int
+  -contenu: string
+  -auteur: Utilisateur
+  -video: Video
+  +ajouterCommentaire(): void
+  +modifierCommentaire(): void
+  +supprimerCommentaire(): void
+}
+
+class Moderateur {
+  +ajouterVideo(): void
+  +supprimerVideo(): void
+  +editerVideo(): void
+  +supprimerCommentaires(): void
+}
+
+class Administrateur {
+  +mettreAJourRoles(): void
+  +gererVideos(): void
+  +bannirUtilisateur(): void
+}
+
+class Person {
+  -id: int
+  -username: string
+  -motDePasse: string
+  -email: string
+  -role: enum
+}
+
+Person <|-- Utilisateur
+Person <|-- Administrateur
+Person <|-- Moderateur
+
+
+Utilisateur -> Commentaire: écrit
+Moderateur -> Video: gère
+Administrateur -> Utilisateur: gère
+Administrateur -> Moderateur: gère
+@enduml
