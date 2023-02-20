@@ -1,68 +1,84 @@
 @startuml
-class Utilisateur {
-  +creerCompte(): void
-  +seConnecter(): void
-  +voirVideos(): void
-  +rechercherVideo(titre: string): Video[]
-  +reagirVideo(videoId: int, reaction: string): void
-  +enregistrerVideo(videoId: int): void
-  +modifierParametresCompte(): void
-  +commenterVideo(videoId: int, commentaire: string): void
-  +modifierCommentaire(commentaireId: int, nouveauCommentaire: string): void
-  +supprimerCommentaire(commentaireId: int): void
+class User {
+  +username: string
+  +email: string
+  +password: string
+  +createAccount(): void
+  +logIn(): void
+  +updateProfile(): void
+  +deleteAccount(): void
+  ++search(keyword: string): Video[]
+}
+
+class Role{
+  +roleName: string
 }
 
 class Video {
-  -id: int
-  -titre: string
-  -url: string
-  -auteur: Moderateur
-  -dateAjout: Date
-  -reactions: Map<string, int>
-  -commentaires: Commentaire[]
-  +ajouterVideo(): void
-  +supprimerVideo(): void
-  +editerVideo(): void
+  +title: string
+  +description: string
+  +url: string
+  +uploadDate: Date
+  +views: int
+  +likes: int
+  +dislikes: int
+  +tags: string[]
+  +comments: Comment[]
+  +upload(user: User): void
+  +delete(user: User): void
+  +edit(user: User): void
+  +view(): void
+  +like(user: User): void
+  +dislike(user: User): void
+  +addComment(comment: Comment): void
+  +removeComment(comment: Comment): void
 }
 
-class Commentaire {
-  -id: int
-  -contenu: string
-  -auteur: Utilisateur
-  -video: Video
-  +ajouterCommentaire(): void
-  +modifierCommentaire(): void
-  +supprimerCommentaire(): void
+class Comment {
+  +text: string
+  +author: User
+  +likes: int
+  +dislikes: int
+  +date: Date
+  +replyTo: Comment
+  +replies: Comment[]
+  +addReply(reply: Comment): void
+  +deleteReply(reply: Comment): void
+  +like(user: User): void
+  +dislike(user: User): void
 }
 
-class Moderateur {
-  +ajouterVideo(): void
-  +supprimerVideo(): void
-  +editerVideo(): void
-  +supprimerCommentaires(): void
+class Channel {
+  +name: string
+  +description: string
+  +owner: User
+  +videos: Video[]
+  +subscribers: User[]
+  +subscribe(user: User): void
+  +unsubscribe(user: User): void
+  +addVideo(video: Video): void
+  +removeVideo(video: Video): void
+  +editVideo(video: Video): void
+  +viewChannel(): void
 }
 
-class Administrateur {
-  +mettreAJourRoles(): void
-  +gererVideos(): void
-  +bannirUtilisateur(): void
+class Playlist {
+  +name: string
+  +description: string
+  +videos: Video[]
+  +owner: User
+  +addVideo(video: Video): void
+  +removeVideo(video: Video): void
+  +edit(): void
 }
 
-class Person {
-  -id: int
-  -username: string
-  -motDePasse: string
-  -email: string
-  -role: enum
-}
+User --* Role : has
+User *-- Comment : comments
+Video *-- Comment : has
+User *-- Channel : owns
+User *-- Channel : subscribes
+Channel *-- Video : has
+Channel *-- Playlist : creates
+Playlist *-- Video : has
 
-Person <|-- Utilisateur
-Person <|-- Administrateur
-Person <|-- Moderateur
-
-
-Utilisateur -> Commentaire: écrit
-Moderateur -> Video: gère
-Administrateur -> Utilisateur: gère
-Administrateur -> Moderateur: gère
 @enduml
