@@ -1,25 +1,42 @@
 package com.koala.designtube.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Entity
-@Getter
-@Setter
+import java.util.Date;
+import java.util.List;
+
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "comment", catalog = "designtube")
 public class CommentEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        private String contenu;
+        private String text;
+        private int likes;
+        private int dislikes;
+        private Date date;
 
         @ManyToOne
-        private UserEntity auteur;
+        private PersonEntity author;
 
         @ManyToOne
         private VedioEntity video;
 
+        @ManyToOne
+        private CommentEntity replyTo;
+
+        @OneToMany(mappedBy = "replyTo")
+        private List<CommentEntity> replies;
+
+
 }
+
+
+

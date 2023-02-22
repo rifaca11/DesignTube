@@ -1,25 +1,39 @@
 package com.koala.designtube.entities;
 
-import com.koala.designtube.utils.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@MappedSuperclass
-@Inheritance(strategy = InheritanceType.JOINED)
-@Setter
-@Getter
+import java.util.List;
+
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "person", catalog = "designtube")
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
-    private String password;
+
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String password;
 
+    // Relationships
+
+    @ManyToOne
+    private RoleEntity role;
+
+    @OneToMany(mappedBy = "author")
+    private List<CommentEntity> comments;
+
+    @OneToMany(mappedBy = "owner")
+    private List<ChannelEntity> ownedChannels;
+
+    @ManyToMany(mappedBy = "subscribers")
+    private List<ChannelEntity> subscribedChannels;
 }

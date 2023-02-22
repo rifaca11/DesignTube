@@ -1,38 +1,49 @@
 package com.koala.designtube.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-@Entity
-@Getter
-@Setter
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "vedio", catalog = "designtube")
 public class VedioEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        private String titre;
+        private String title;
+
+        private String description;
+
         private String url;
 
-        @ManyToOne
-        private ModeratorEntity auteur;
+        private Date uploadDate;
 
-        private Date dateAjout;
+        private int views;
+
+        private int likes;
+
+        private int dislikes;
 
         @ElementCollection
-        @CollectionTable(name = "video_reactions")
-        @MapKeyColumn(name = "reaction")
-        @Column(name = "count")
-        private Map<String, Integer> reactions;
+        private List<String> tags;
+
+        // Relationships
+
+        @ManyToOne
+        private PersonEntity uploader;
 
         @OneToMany(mappedBy = "video")
-        private List<CommentEntity> commentaires;
+        private List<CommentEntity> comments;
 
-    }
+        @ManyToOne
+        private ChannelEntity channel;
+
+}
