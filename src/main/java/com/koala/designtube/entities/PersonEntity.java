@@ -31,8 +31,9 @@ public class PersonEntity {
     @OneToMany(mappedBy = "author")
     private List<CommentEntity> comments;
 
-    @OneToMany(mappedBy = "owner")
-    private List<ChannelEntity> ownedChannels;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "channel_id", referencedColumnName = "id")
+    private ChannelEntity ownedChannels;
 
     @ManyToMany(mappedBy = "subscribers")
     private List<ChannelEntity> subscribedChannels;

@@ -28,9 +28,8 @@ public class PlaylistEntity {
     @NotBlank
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private PersonEntity owner;
+    @OneToMany(mappedBy = "playlists", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChannelEntity> channels = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "playlist_videos",

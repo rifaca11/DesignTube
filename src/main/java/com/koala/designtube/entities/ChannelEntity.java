@@ -25,17 +25,13 @@ public class ChannelEntity {
     @NotBlank
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private PersonEntity owner;
-
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VedioEntity> videos = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "channel_subscribers",
-            joinColumns = @JoinColumn(name = "channel_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<PersonEntity> subscribers = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="playlists", referencedColumnName = "id")
+    private PlaylistEntity playlists;
+
+
 
 }

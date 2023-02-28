@@ -37,13 +37,13 @@ public class VedioEntity {
 
         // Relationships
 
-        @ManyToOne
-        private PersonEntity uploader;
-
         @OneToMany(mappedBy = "video")
         private List<CommentEntity> comments;
 
         @ManyToOne
         private ChannelEntity channel;
+
+        @ManyToOne
+        private PlaylistEntity playlist;
 
 }

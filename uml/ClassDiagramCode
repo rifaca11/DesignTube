@@ -7,7 +7,7 @@ class User {
   +logIn(): void
   +updateProfile(): void
   +deleteAccount(): void
-  ++search(keyword: string): Video[]
+  +search(keyword: string): Video[]
 }
 
 class Role{
